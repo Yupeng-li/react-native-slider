@@ -153,6 +153,16 @@ export interface SliderProps
   accessibilityIncrements?: Array<string>;
 
   /**
+   * Callback called when touch starts
+   */
+  onTouchStart?: () => void;
+
+  /**
+   * Callback called when touch ends
+   */
+  onTouchEnd?: () => void;
+
+  /**
    * Reference object.
    */
   ref?: SliderReferenceType;

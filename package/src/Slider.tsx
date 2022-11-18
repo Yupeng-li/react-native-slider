@@ -173,6 +173,16 @@ type Props = ViewProps &
      * The number of elements must be the same as `maximumValue`.
      */
     accessibilityIncrements?: Array<string>;
+
+    /**
+     * Callback called when touch starts
+     */
+    onTouchStart?: () => void;
+
+    /**
+     * Callback called when touch ends
+     */
+    onTouchEnd?: () => void;
   }>;
 
 const SliderComponent = (
@@ -185,6 +195,8 @@ const SliderComponent = (
     onValueChange,
     onSlidingStart,
     onSlidingComplete,
+    onTouchEnd,
+    onTouchStart,
     onAccessibilityAction,
     ...localProps
   } = props;
@@ -239,7 +251,14 @@ const SliderComponent = (
       onRNCSliderSlidingComplete={onSlidingCompleteEvent}
       onRNCSliderValueChange={onValueChangeEvent}
       disabled={_disabled}
-      onStartShouldSetResponder={() => true}
+      onResponderRelease={onTouchEnd}
+      onResponderTerminate={onTouchEnd}
+      onStartShouldSetResponder={() => {
+        if (onTouchStart) {
+          onTouchStart();
+        }
+        return true;
+      }}
       onResponderTerminationRequest={() => false}
       onRNCSliderAccessibilityAction={onAccessibilityActionEvent}
     />
